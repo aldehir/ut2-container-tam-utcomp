@@ -50,10 +50,10 @@ jobs:
     name: Synchronize Redirect
     runs-on: ubuntu-latest
     needs: build
-
+    container:
+      image: ${{ needs.build.outputs.container-image }}
     steps:
       - name: Generate Manifest
-        env:
-          CONTAINER_IMAGE: ${{ jobs.build.outputs.container-image }}
-        run: |
-          podman run --rm -ti --entrypoint /usr/bin/ut2u $CONTAINER_IMAGE redirect manifest System/UT2004.ini
+        run: ut2u redirect manifest System/UT2004.ini
+        with:
+          entrypoint: /bin/bash

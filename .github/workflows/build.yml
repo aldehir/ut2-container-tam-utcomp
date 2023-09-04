@@ -19,7 +19,7 @@ jobs:
       packages: write
 
     outputs:
-      container-image: ${{ steps.push-to-registry.outputs.registry-paths[0] }}
+      container-image: ${{ fromJSON(steps.push-to-registry.outputs.registry-paths)[0] }}
 
     steps:
       - uses: actions/checkout@v3

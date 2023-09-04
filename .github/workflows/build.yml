@@ -54,4 +54,4 @@ jobs:
       - name: Generate Manifest
         env:
           CONTAINER_IMAGE: ${{ needs.build.outputs.container-image }}
-        run: podman run --rm -ti --entrypoint /bin/bash $CONTAINER_IMAGE echo 'test'
+        run: podman run --rm -ti --entrypoint "/bin/bash -c" $CONTAINER_IMAGE ut2u redirect manifest System/UT2004.ini

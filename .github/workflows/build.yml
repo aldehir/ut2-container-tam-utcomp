@@ -57,7 +57,7 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       AWS_DEFAULT_REGION: ${{ vars.AWS_DEFAULT_REGION }}
       REDIRECT_BUCKET: ${{ vars.REDIRECT_BUCKET }}
-      REDIRECT_PREFIX: ${{ vars.REDIRECT_BUCKET }}
+      REDIRECT_PREFIX: ${{ vars.REDIRECT_PREFIX }}
     steps:
       - name: Generate Manifest
         run: /usr/bin/ut2u redirect sync -b $REDIRECT_BUCKET -p $REDIRECT_PREFIX /opt/ut2004/System/UT2004.ini

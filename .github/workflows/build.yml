@@ -18,6 +18,9 @@ jobs:
       contents: read
       packages: write
 
+    outputs:
+      container-image: ${{ steps.push-to-registry.outputs.registry-paths[0] }}
+
     steps:
       - uses: actions/checkout@v3
 
@@ -49,4 +52,6 @@ jobs:
     needs: build
     steps:
       - name: Generate Manifest
-        run: podman run --rm -ti --entrypoint /bin/bash ${{ needs.build.outputs.container-image }} echo 'test'
+        env:
+          CONTAINER_IMAGE: ${{ needs.build.outputs.container-image }}
+        run: podman run --rm -ti --entrypoint /bin/bash $CONTAINER_IMAGE echo 'test'

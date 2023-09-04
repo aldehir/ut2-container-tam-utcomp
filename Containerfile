@@ -1,12 +1,11 @@
 FROM ghcr.io/aldehir/ut2/base:3369.3-release-2
 
-ARG UT2U_VERSION=v0.1.2
-
 RUN dnf install -y bsdtar && \
     mkdir Community && \
     cd Community && \
     curl -sfL https://cdn.alde.dev/ut2k4/packs/ut2004-ufc-community-maps.zip | bsdtar -x --no-same-owner -vf -
 
+ARG UT2U_VERSION=v0.1.2
 COPY UT2004.ini System/UT2004.ini
 
 RUN curl -sfL -o /usr/bin/ut2u https://github.com/aldehir/ut2u/releases/download/$UT2U_VERSION/ut2u-linux-amd64 && \

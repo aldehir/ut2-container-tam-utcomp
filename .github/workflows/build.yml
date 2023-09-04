@@ -4,9 +4,8 @@ on:
   push:
 
 env:
-  IMAGE_NAME: tam-utcomp
-  IMAGE_TAGS: ${{ github.sha }} ${{ github.ref_name }}
-  IMAGE_REGISTRY: ghcr.io/${{ github.repository_owner }}/ut2
+  IMAGE_NAME: ut2/tam-utcomp
+  IMAGE_REGISTRY: ghcr.io
   REGISTRY_USER: ${{ github.actor }}
   REGISTRY_PASSWORD: ${{ github.token }}
 
@@ -24,38 +23,29 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Log in
-        uses: redhat-actions/podman-login@v1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Log in to ghcr.io
+        uses: docker/login-action@v2
         with:
           registry: ${{ env.IMAGE_REGISTRY }}
           username: ${{ env.REGISTRY_USER }}
           password: ${{ env.REGISTRY_PASSWORD }}
 
-      - name: Buildah Build
-        id: build-image
-        uses: redhat-actions/buildah-build@v2
+      - name: Build and push
+        uses: docker/build-push-action@v4
         with:
-          image: ${{ env.IMAGE_NAME }}
-          tags: ${{ env.IMAGE_TAGS }}
-          layers: true
-          extra-args: |
-            --cache-from=${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}/cache
-            --cache-to=${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}/cache
-          containerfiles: |
-            ./Containerfile
-
-      - name: Push to Registry
-        id: push-to-registry
-        uses: redhat-actions/push-to-registry@v2
-        with:
-          image: ${{ steps.build-image.outputs.image }}
-          tags: ${{ steps.build-image.outputs.tags }}
-          registry: ${{ env.IMAGE_REGISTRY }}
-          username: ${{ env.REGISTRY_USER }}
-          password: ${{ env.REGISTRY_PASSWORD }}
-
-      - name: Print image url
-        run: echo "Image pushed to ${{ steps.push-to-registry.outputs.registry-paths }}"
+          context: .
+          file: ./Containerfile
+          tags: |
+            ${{ env.IMAGE_REGISTRY }}/{{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+            ${{ env.IMAGE_REGISTRY }}/{{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ github.ref_name }}
+          cache-from: |
+            ${{ env.IMAGE_REGISTRY }}/{{ github.repository_owner }}/${{ env.IMAGE_NAME }}:cache
+          cache-to: |
+            ${{ env.IMAGE_REGISTRY }}/{{ github.repository_owner }}/${{ env.IMAGE_NAME }}:cache
+          push: true
 
   sync-redirect:
     name: Synchronize Redirect

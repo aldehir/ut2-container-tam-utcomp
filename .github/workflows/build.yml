@@ -9,6 +9,7 @@ env:
   IMAGE_REGISTRY: ghcr.io/${{ github.repository_owner }}/ut2
   REGISTRY_USER: ${{ github.actor }}
   REGISTRY_PASSWORD: ${{ github.token }}
+  REGISTRY_CACHE: ${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}/cache
 
 jobs:
   build:
@@ -24,12 +25,23 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Log in
+        uses: redhat-actions/podman-login@v1
+        with:
+          registry: ${{ env.IMAGE_REGISTRY }}
+          username: ${{ env.REGISTRY_USER }}
+          password: ${{ env.REGISTRY_PASSWORD }}
+
       - name: Buildah Build
         id: build-image
         uses: redhat-actions/buildah-build@v2
         with:
           image: ${{ env.IMAGE_NAME }}
           tags: ${{ env.IMAGE_TAGS }}
+          layers: true
+          extra-args: |
+            --cache-from=${{ env.REGISTRY_CACHE }}
+            --cache-to=${{ env.REGISTRY_CACHE }}
           containerfiles: |
             ./Containerfile
 

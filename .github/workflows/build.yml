@@ -50,13 +50,10 @@ jobs:
     name: Synchronize Redirect
     runs-on: ubuntu-latest
     needs: build
-    container:
-      image: ${{ jobs.build.outputs.container-image }}
-    steps:
-      - name: Download ut2u
-        run: |
-          curl -sL -o ut2u https://github.com/aldehir/ut2u/releases/download/v0.1.0/ut2u-linux-amd64
-          chmod +x ut2u
 
-      - name: Generate manifest
-        run: ./ut2u redirect manifest System/UT2004.ini
+    steps:
+      - name: Generate Manifest
+        env:
+          CONTAINER_IMAGE: ${{ jobs.build.outputs.container-image }}
+        run: |
+          podman run --rm -ti --entrypoint /usr/bin/ut2u $CONTAINER_IMAGE redirect manifest System/UT2004.ini

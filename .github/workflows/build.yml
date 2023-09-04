@@ -52,6 +52,12 @@ jobs:
     needs: build
     container:
       image: ${{ needs.build.outputs.container-image }}
+      env:
+        AWS_ACCESS_KEY_ID: ${{ env.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ env.AWS_SECRET_ACCESS_KEY }}
+        AWS_DEFAULT_REGION: ${{ env.AWS_DEFAULT_REGION }}
+        REDIRECT_BUCKET: ${{ env.REDIRECT_BUCKET }}
+        REDIRECT_PREFIX: ${{ env.REDIRECT_BUCKET }}
     steps:
       - name: Generate Manifest
-        run: /usr/bin/ut2u redirect manifest /opt/ut2004/System/UT2004.ini
+        run: /usr/bin/ut2u redirect sync -b $REDIRECT_BUCKET -p $REDIRECT_PREFIX /opt/ut2004/System/UT2004.ini

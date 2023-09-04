@@ -39,12 +39,12 @@ jobs:
           context: .
           file: ./Containerfile
           tags: |
-            ${{ env.IMAGE_REGISTRY }}/{{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
-            ${{ env.IMAGE_REGISTRY }}/{{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ github.ref_name }}
+            ${{ env.IMAGE_REGISTRY }}/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+            ${{ env.IMAGE_REGISTRY }}/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ github.ref_name }}
           cache-from: |
-            ${{ env.IMAGE_REGISTRY }}/{{ github.repository_owner }}/${{ env.IMAGE_NAME }}:cache
+            ${{ env.IMAGE_REGISTRY }}/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:cache
           cache-to: |
-            ${{ env.IMAGE_REGISTRY }}/{{ github.repository_owner }}/${{ env.IMAGE_NAME }}:cache
+            ${{ env.IMAGE_REGISTRY }}/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:cache
           push: true
 
   sync-redirect:

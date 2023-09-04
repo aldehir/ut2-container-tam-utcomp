@@ -18,6 +18,9 @@ jobs:
       contents: read
       packages: write
 
+    outputs:
+      container-image: ${{ steps.push-to-registry.outputs.registry-paths[-1] }}
+
     steps:
       - uses: actions/checkout@v3
 
@@ -42,3 +45,18 @@ jobs:
 
       - name: Print image url
         run: echo "Image pushed to ${{ steps.push-to-registry.outputs.registry-paths }}"
+
+  sync-redirect:
+    name: Synchronize Redirect
+    runs-on: ubuntu-latest
+    needs: build
+    container:
+      image: ${{ jobs.build.outputs.container-image }}
+      steps:
+        - name: Download ut2u
+          run: |
+            curl -sL -o ut2u https://github.com/aldehir/ut2u/releases/download/v0.1.0/ut2u-linux-amd64
+            chmod +x ut2u
+
+        - name: Generate manifest
+          run: ./ut2u redirect manifest System/UT2004.ini

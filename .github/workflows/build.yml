@@ -18,7 +18,7 @@ jobs:
       packages: write
 
     outputs:
-      container-image: ${{ steps.push-to-registry.outputs.registry-path }}
+      container-image: ${{ env.IMAGE_REGISTRY }}/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
 
     steps:
       - uses: actions/checkout@v3

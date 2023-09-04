@@ -4,8 +4,14 @@ ARG UT2U_VERSION=v0.1.1
 
 COPY UT2004.ini System/UT2004.ini
 
-RUN curl -sL -o /usr/bin/ut2u \
-      https://github.com/aldehir/ut2u/releases/download/$UT2U_VERSION/ut2u-linux-amd64 && \
+RUN dnf install -y bsdtar && \
+    curl -sfL -o /usr/bin/ut2u https://github.com/aldehir/ut2u/releases/download/$UT2U_VERSION/ut2u-linux-amd64 && \
+    mkdir Community && \
+    pushd Community && \
+    curl -sfL https://ufcstorage.blob.core.windows.net/ufc-server-files/Maps1of2.zip | bsdtar -xf - && \
+    curl -sfL https://ufcstorage.blob.core.windows.net/ufc-server-files/Maps2of2.zip | bsdtar -xf - && \
+    rm -rf __MACOSX && \
+    popd && \
     chmod +x /usr/bin/ut2u && \
     rm -f StaticMeshes/DanielsMeshes.utx && \
     ut2u package check-deps System/UT2004.ini

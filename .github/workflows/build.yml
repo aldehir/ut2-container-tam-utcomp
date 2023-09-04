@@ -55,5 +55,3 @@ jobs:
     steps:
       - name: Generate Manifest
         run: ut2u redirect manifest System/UT2004.ini
-        with:
-          entrypoint: /bin/bash

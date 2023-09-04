@@ -1,4 +1,4 @@
-FROM ghcr.io/aldehir/ut2004-server:3369.3-release-1
+FROM ghcr.io/aldehir/ut2/base:3369.3-release-2
 
 ARG UT2U_VERSION=v0.1.0
 

@@ -18,9 +18,6 @@ jobs:
       contents: read
       packages: write
 
-    outputs:
-      container-image: ${{ fromJSON(steps.push-to-registry.outputs.registry-paths)[-1] }}
-
     steps:
       - uses: actions/checkout@v3
 
@@ -51,7 +48,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     container:
-      image: ${{ needs.build.outputs.container-image }}
+      image: ${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
     steps:
       - name: Generate Manifest
         run: ut2u redirect manifest System/UT2004.ini

@@ -7,6 +7,7 @@ COPY UT2004.ini System/UT2004.ini
 RUN curl -sL -o /usr/bin/ut2u \
       https://github.com/aldehir/ut2u/releases/download/$UT2U_VERSION/ut2u-linux-amd64 && \
     chmod +x /usr/bin/ut2u && \
+    rm -f StaticMeshes/DanielsMeshes.utx && \
     ut2u package check-deps System/UT2004.ini
 
 LABEL org.opencontainers.image.created="2023-09-01T12:00:00Z" \

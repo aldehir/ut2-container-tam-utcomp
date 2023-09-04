@@ -60,5 +60,5 @@ jobs:
       REDIRECT_BUCKET: ${{ vars.REDIRECT_BUCKET }}
       REDIRECT_PREFIX: ${{ vars.REDIRECT_PREFIX }}
     steps:
-      - name: Generate Manifest
+      - name: Push Packages
         run: /usr/bin/ut2u redirect sync -b $REDIRECT_BUCKET -p $REDIRECT_PREFIX /opt/ut2004/System/UT2004.ini

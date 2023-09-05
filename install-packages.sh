@@ -3,7 +3,7 @@ set -o errexit
 
 ucc=${UT2_UCC_EXE:-ucc-bin}
 system_dir=${UT2_SYSTEM_DIR:-/opt/ut2004/System}
-redirect_url=${REDIRECT_URL:-https://redirect.ut2.kokuei.dev}
+redirect_url=${REDIRECT_URL:-https://ut2.redirect.kokuei.dev}
 tmp="Downloads"
 
 main() {

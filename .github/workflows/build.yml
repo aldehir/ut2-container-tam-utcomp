@@ -81,4 +81,5 @@ jobs:
           git config user.email github-actions@github.com
           echo "$CONTAINER_IMAGE" > provision/image
           git add provision/image
+          git commit -m "Update to $CONTAINER_IMAGE"
           git push

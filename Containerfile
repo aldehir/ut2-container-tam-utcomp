@@ -6,11 +6,15 @@ RUN dnf install -y bsdtar && \
     curl -sfL https://cdn.alde.dev/ut2k4/packs/ut2004-ufc-community-maps.zip | bsdtar -x --no-same-owner -vf -
 
 ARG UT2U_VERSION=v0.1.2
+
+COPY --chmod=755 install-packages.sh Community/
+COPY packages.csv Community/
 COPY UT2004.ini System/UT2004.ini
 
 RUN curl -sfL -o /usr/bin/ut2u https://github.com/aldehir/ut2u/releases/download/$UT2U_VERSION/ut2u-linux-amd64 && \
     chmod +x /usr/bin/ut2u && \
     rm -f StaticMeshes/DanielsMeshes.usx && \
+    (cd Community && ./install-packages.sh) && \
     ut2u package check-deps System/UT2004.ini && \
     echo "Package dependency check passed!"
 

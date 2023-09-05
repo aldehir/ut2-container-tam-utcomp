@@ -74,6 +74,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: aldehir/ut2.kokuei.dev
+          ssh-key: ${{ secrets.INFRA_REPO_SSH_KEY }}
 
       - run: |
           git config user.name github-actions

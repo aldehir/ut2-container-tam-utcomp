@@ -5,7 +5,7 @@ RUN dnf install -y bsdtar && \
     cd Community && \
     curl -sfL https://cdn.alde.dev/ut2k4/packs/ut2004-ufc-community-maps.zip | bsdtar -x --no-same-owner -vf -
 
-ARG UT2U_VERSION=v0.1.2
+ARG UT2U_VERSION=v0.1.3
 
 COPY --chmod=755 install-packages.sh Community/
 COPY packages.csv Community/

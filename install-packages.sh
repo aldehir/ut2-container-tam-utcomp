@@ -24,7 +24,7 @@ download_package() {
   local tmpfile="$tmp/$name.uz2"
   local decompressed="$tmp/$name"
 
-  local download_url="$redirect_url/$name/$guid.uz2"
+  local download_url="$redirect_url/$name.uz2/$guid"
 
   echo "Downloading $download_url -> $tmpfile"
   curl -sfL -o "$tmpfile" "$download_url"
